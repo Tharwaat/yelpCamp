@@ -3,6 +3,7 @@
 const express     = require ("express"),
       bodyParser  = require("body-parser"),
       mongoose    = require("mongoose"),
+      seed        = require("./seed");
       Camp        = require("./models/campground"),
 
       app         = express(),
@@ -20,7 +21,8 @@ mongoose.connect(dbUrl, {useNewUrlParser: true}, function(err, db){
     }
 });
 
-
+// Seeding the DB
+seed();
 // Configurations
 
 //app.use(express.static(""));
@@ -78,10 +80,10 @@ app.get("/camps/:id", function(req, res){
     // res.send("Hello"+id);
     console.log(id);
 
-    Camp.findById(id, function(err, foundCamp){
+    Camp.findById(id).populate("comments").exec( function(err, foundCamp){
         if(err) console.log(err);
         else{
-            //console.log(foundCamp);
+            console.log(foundCamp);
             res.render("show", {foundCamp: foundCamp});
         }
     })
@@ -90,6 +92,6 @@ app.get("/camps/:id", function(req, res){
 
 
 // Depoloying
-app.listen(3000, function(){
+app.listen(3001, function(){
     console.log("YelpCamp is serving on port 3000!");
 })

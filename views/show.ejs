@@ -1,3 +1,9 @@
 <h1><%= foundCamp.name %></h1>
 <img src="<%= foundCamp.img %>"/>
 <p><%= foundCamp.desc %></p>
+<% foundCamp.comments.forEach(function(comment){ %>
+    <p>
+        <strong><%= comment.author %>: </strong>
+        <%= comment.text %>
+    </p>
+<% }) %>
