@@ -1,0 +1,35 @@
+<% include partials/header.ejs %>
+<div class="container">
+    
+    <header class="jumbotron">
+        <h1>Here're the camps!</h1>
+        <p>Welcome There !</p>
+
+    </header>
+    
+    <div class="row text-center"  style="display: flex; flex-wrap: wrap;">
+        <% camps.forEach(function(camp){ %>
+       
+        <div class="col-md-3 col-sm-6">
+            
+            <figure>               
+                <img src="<%= camp.img %>" class="img-thumbnail"/>
+                <figcaption class="figure-caption">
+                    <a href="/camps/<%= camp._id %>" class="btn btn-primary">
+                        <%= camp.name %>
+                    </a>
+                </figcaption>                  
+            </figure>               
+            
+        </div>                
+          
+        <% }) %>            
+    </div>
+    
+    <p>
+        <a class="btn btn-primary btn-large" href="/">Back!</a>
+    </p>   
+
+</div>
+
+<% include partials/footer.ejs %>
