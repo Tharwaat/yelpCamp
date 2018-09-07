@@ -32,27 +32,30 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 // Routes
-app.get("/camps/new", function(req, res){
-    res.render("new");
-})
 
+// Home
 app.get("/", function(req, res){
     res.render("home");
 })
 
-app.get("/camps", function(req, res){
+// Camps
+app.get("/camps/new", function(req, res){   // New Camp form
+    res.render("camps/new");
+})
+
+app.get("/camps", function(req, res){   // Showing all camps
     Camp.find({}, function(err, camps){
         if(err){
             throw err;
             console("Something went wrong while retreving all camps!");
         } else{
-            res.render("index", {camps : camps});
+            res.render("camps/index", {camps : camps});
         }
     });
     
 })
 
-app.post("/camps", function(req, res){
+app.post("/camps", function(req, res){  // Adding new camp
     var campname = req.body.name;
     var image = req.body.imageUrl;
     var desc = req.body.desc;    
@@ -66,16 +69,14 @@ app.post("/camps", function(req, res){
             console.log("Camp added successfuly!");
             console.log(camp);
         }
-    });
-    
-    //camps.push(newcamp);
+    });   
 
     res.redirect("/camps");
 })
 
 
 
-app.get("/camps/:id", function(req, res){
+app.get("/camps/:id", function(req, res){   //Showing specific camp
    var id = mongoose.Types.ObjectId(req.params.id);
     // res.send("Hello"+id);
     console.log(id);
@@ -84,14 +85,24 @@ app.get("/camps/:id", function(req, res){
         if(err) console.log(err);
         else{
             console.log(foundCamp);
-            res.render("show", {foundCamp: foundCamp});
+            res.render("camps/show", {foundCamp: foundCamp});
         }
     })
 })
 
+////////
 
+// Comments
+app.get("/camps/:id/comments/new", function(req, res){
+    var id = mongoose.Types.ObjectId(req.params.id);
+    console.log(id);
+    Camp.findById(id, function(err, camp){
+        if(err) console.log(err);
+        else res.render("comments/new", {camp: camp});
+    })
+})
 
 // Depoloying
-app.listen(3001, function(){
+app.listen(3000, function(){
     console.log("YelpCamp is serving on port 3000!");
 })
