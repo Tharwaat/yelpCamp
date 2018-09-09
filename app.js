@@ -6,7 +6,7 @@ const express     = require ("express"),
       seed        = require("./seed");
       Camp        = require("./models/campground"),
       Comment     = require("./models/comment");
-      
+
       app         = express(),
       dbUrl       = "mongodb://localhost:27017/yelp_camp";
 
@@ -24,8 +24,8 @@ mongoose.connect(dbUrl, {useNewUrlParser: true}, function(err, db){
 
 // Seeding the DB
 seed();
-// Configurations
 
+// Configurations
 //app.use(express.static(""));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
