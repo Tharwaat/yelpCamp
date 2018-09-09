@@ -1,7 +1,7 @@
 <% include ../partials/header.ejs %>
 
-<form action="/camps/<%= camp._id>/comments" method="POST">
-    <input type="text" name="comment[name]" placeholder="text"/><br>
+<form action="/camps/<%= camp._id %>/comments" method="POST">
+    <input type="text" name="comment[text]" placeholder="text"/><br>
     <input type="text" name="comment[author]" placeholder="author"/><br>
     
     <button>Submit!</button>

@@ -5,7 +5,8 @@ const express     = require ("express"),
       mongoose    = require("mongoose"),
       seed        = require("./seed");
       Camp        = require("./models/campground"),
-
+      Comment     = require("./models/comment");
+      
       app         = express(),
       dbUrl       = "mongodb://localhost:27017/yelp_camp";
 
@@ -99,6 +100,26 @@ app.get("/camps/:id/comments/new", function(req, res){
     Camp.findById(id, function(err, camp){
         if(err) console.log(err);
         else res.render("comments/new", {camp: camp});
+    })
+})
+
+app.post("/camps/:id/comments", function(req, res){
+    var id = mongoose.Types.ObjectId(req.params.id);
+
+    Camp.findById(id, function(err, camp){
+        if(err) console.log(err);
+        else{
+            console.log(req.body.comment);
+
+            Comment.create(req.body.comment, function(err, comment){
+                if(err) console.log(err);
+                else{
+                    camp.comments.push(comment);
+                    camp.save();
+                    res.redirect("/camps/" + camp._id);
+                }
+            })
+        }
     })
 })
 
